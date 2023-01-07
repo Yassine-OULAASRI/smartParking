@@ -1,0 +1,488 @@
+[
+    {
+        "id": "c7fbfc39ecea9a3b",
+        "type": "tab",
+        "label": "p_authentification",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "98d01466b1e48835",
+        "type": "ui_button",
+        "z": "c7fbfc39ecea9a3b",
+        "name": "",
+        "group": "d1f0266c1933a65e",
+        "order": 6,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "Log in",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 190,
+        "y": 320,
+        "wires": [
+            [
+                "dea40ce5238f921b"
+            ]
+        ]
+    },
+    {
+        "id": "cc12108e827d41d9",
+        "type": "ui_text_input",
+        "z": "c7fbfc39ecea9a3b",
+        "name": "",
+        "label": "Full name",
+        "tooltip": "",
+        "group": "d1f0266c1933a65e",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "mode": "text",
+        "delay": 300,
+        "topic": "topic",
+        "sendOnBlur": true,
+        "className": "",
+        "topicType": "msg",
+        "x": 260,
+        "y": 80,
+        "wires": [
+            [
+                "180b69d4ab785161"
+            ]
+        ]
+    },
+    {
+        "id": "3c6170a22324969e",
+        "type": "ui_text_input",
+        "z": "c7fbfc39ecea9a3b",
+        "name": "",
+        "label": "Phone number",
+        "tooltip": "",
+        "group": "d1f0266c1933a65e",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "mode": "text",
+        "delay": 300,
+        "topic": "topic",
+        "sendOnBlur": true,
+        "className": "",
+        "topicType": "msg",
+        "x": 280,
+        "y": 120,
+        "wires": [
+            [
+                "397b82505be486f3"
+            ]
+        ]
+    },
+    {
+        "id": "be846c88f1c4a4bc",
+        "type": "link in",
+        "z": "c7fbfc39ecea9a3b",
+        "name": "Reset",
+        "links": [],
+        "x": 115,
+        "y": 120,
+        "wires": [
+            [
+                "cc12108e827d41d9",
+                "3c6170a22324969e",
+                "3d48d2b2980a48d3"
+            ]
+        ]
+    },
+    {
+        "id": "180b69d4ab785161",
+        "type": "function",
+        "z": "c7fbfc39ecea9a3b",
+        "name": "Username to global",
+        "func": "if (msg.payload !== \"\")\n    global.set(\"login_username\",msg.payload);",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 490,
+        "y": 80,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "397b82505be486f3",
+        "type": "function",
+        "z": "c7fbfc39ecea9a3b",
+        "name": "Password to global",
+        "func": "if (msg.payload !== \"\")\n    global.set(\"login_password\", msg.payload);",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 490,
+        "y": 120,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "c04105979ae19076",
+        "type": "comment",
+        "z": "c7fbfc39ecea9a3b",
+        "name": "Login page",
+        "info": "",
+        "x": 60,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "dea40ce5238f921b",
+        "type": "delay",
+        "z": "c7fbfc39ecea9a3b",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "2",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 340,
+        "y": 320,
+        "wires": [
+            [
+                "6959feb9ce20e3bf"
+            ]
+        ]
+    },
+    {
+        "id": "6959feb9ce20e3bf",
+        "type": "function",
+        "z": "c7fbfc39ecea9a3b",
+        "name": "Password to global",
+        "func": "if (msg.payload !== \"\")\n    global.set(\"login_password\", msg.payload);",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 530,
+        "y": 320,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "edb8279911a2ac10",
+        "type": "json",
+        "z": "c7fbfc39ecea9a3b",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": true,
+        "x": 570,
+        "y": 420,
+        "wires": [
+            [
+                "09a66a43a5066c8d",
+                "37126b8f77761b0e"
+            ]
+        ]
+    },
+    {
+        "id": "80dcbf8909733e63",
+        "type": "file in",
+        "z": "c7fbfc39ecea9a3b",
+        "name": "subscribed.json",
+        "filename": "C:\\Users\\YASSI\\Desktop\\subscribed.json",
+        "filenameType": "str",
+        "format": "utf8",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "allProps": false,
+        "x": 360,
+        "y": 420,
+        "wires": [
+            [
+                "edb8279911a2ac10"
+            ]
+        ]
+    },
+    {
+        "id": "09a66a43a5066c8d",
+        "type": "debug",
+        "z": "c7fbfc39ecea9a3b",
+        "name": "debug 13",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 720,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "858e49f82b3f9acb",
+        "type": "inject",
+        "z": "c7fbfc39ecea9a3b",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "false",
+        "payloadType": "bool",
+        "x": 150,
+        "y": 420,
+        "wires": [
+            [
+                "80dcbf8909733e63",
+                "0258983730667961",
+                "b5c13c02b416b4ad"
+            ]
+        ]
+    },
+    {
+        "id": "37126b8f77761b0e",
+        "type": "function",
+        "z": "c7fbfc39ecea9a3b",
+        "name": "function 4",
+        "func": "/*var subscribed = [];\n\nsubscribed[0] = msg.payload;\n\nvar data = {\n    fname: \"65465\",\n    fnumber: \"65549\",\n    cin: \"fsfs89\",\n    mode: 2\n}\n\nsubscribed.push(data);\nmsg = subscribed;\n\nreturn msg;*/\n\nvar arr = msg.payload;\nlet n = arr.length;\nvar data = {\n    fname: \"65465\",\n    fnumber: \"65549\",\n    cin: \"fsfs89\",\n    mode: 2\n};\n\narr[n] = data;\n\nmsg.payload = arr;\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 580,
+        "y": 500,
+        "wires": [
+            [
+                "07a0a57db2ca5fa8",
+                "d2181bba5e4a885c"
+            ]
+        ]
+    },
+    {
+        "id": "07a0a57db2ca5fa8",
+        "type": "debug",
+        "z": "c7fbfc39ecea9a3b",
+        "name": "debug 14",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 900,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "d2181bba5e4a885c",
+        "type": "json",
+        "z": "c7fbfc39ecea9a3b",
+        "name": "",
+        "property": "payload",
+        "action": "str",
+        "pretty": true,
+        "x": 770,
+        "y": 540,
+        "wires": [
+            [
+                "dab8b8e34bd608f2"
+            ]
+        ]
+    },
+    {
+        "id": "dab8b8e34bd608f2",
+        "type": "file",
+        "z": "c7fbfc39ecea9a3b",
+        "name": "subscribed.json",
+        "filename": "C:\\Users\\YASSI\\Desktop\\subscribed.json",
+        "filenameType": "str",
+        "appendNewline": true,
+        "createDir": false,
+        "overwriteFile": "true",
+        "encoding": "none",
+        "x": 940,
+        "y": 540,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "0258983730667961",
+        "type": "debug",
+        "z": "c7fbfc39ecea9a3b",
+        "name": "debug 15",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 360,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "ef7b9fda783d4f51",
+        "type": "ui_text",
+        "z": "c7fbfc39ecea9a3b",
+        "group": "d1f0266c1933a65e",
+        "order": 5,
+        "width": "0",
+        "height": "0",
+        "name": "loginMsg",
+        "label": "",
+        "format": "{{msg.payload}}",
+        "layout": "row-center",
+        "className": "",
+        "x": 300,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "b5c13c02b416b4ad",
+        "type": "function",
+        "z": "c7fbfc39ecea9a3b",
+        "name": "loginState",
+        "func": "if (msg.payload == true)\n    msg.payload = \"Invalid password\"; \nelse\n    msg.payload = \"\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 120,
+        "y": 260,
+        "wires": [
+            [
+                "ef7b9fda783d4f51"
+            ]
+        ]
+    },
+    {
+        "id": "3d48d2b2980a48d3",
+        "type": "ui_text_input",
+        "z": "c7fbfc39ecea9a3b",
+        "name": "",
+        "label": "C.I.N.",
+        "tooltip": "",
+        "group": "d1f0266c1933a65e",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "mode": "text",
+        "delay": 300,
+        "topic": "topic",
+        "sendOnBlur": true,
+        "className": "",
+        "topicType": "msg",
+        "x": 250,
+        "y": 160,
+        "wires": [
+            [
+                "213bbd857f49a87f"
+            ]
+        ]
+    },
+    {
+        "id": "213bbd857f49a87f",
+        "type": "function",
+        "z": "c7fbfc39ecea9a3b",
+        "name": "Password to global",
+        "func": "if (msg.payload !== \"\")\n    global.set(\"login_password\", msg.payload);",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 490,
+        "y": 160,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "54e745a11746cec3",
+        "type": "remote-access",
+        "z": "c7fbfc39ecea9a3b",
+        "confignode": "65aa476d444fcec8",
+        "name": "",
+        "verbose": 0,
+        "x": 940,
+        "y": 20,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "d1f0266c1933a65e",
+        "type": "ui_group",
+        "name": "Authentification",
+        "tab": "b4d107ba.d65648",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "65aa476d444fcec8",
+        "type": "remote-config",
+        "name": "SMART PARKING",
+        "host": "localhost",
+        "protocol": "http",
+        "port": "1880",
+        "baseurl": "/ui",
+        "instancehash": "n62j68du90azo674bc32usavk52f6xy2blq3ks80yxv5glmjwk1vat1bpystz1u5",
+        "server": "nodered04.remote-red.com",
+        "region": "de"
+    },
+    {
+        "id": "b4d107ba.d65648",
+        "type": "ui_tab",
+        "name": "Login Flow",
+        "icon": "fa-leaf",
+        "order": 5,
+        "disabled": false,
+        "hidden": false
+    }
+]

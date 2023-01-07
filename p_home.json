@@ -1,0 +1,1253 @@
+[
+    {
+        "id": "3bab4206200b7182",
+        "type": "tab",
+        "label": "p_home",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "f8987db6090a448e",
+        "type": "ui_form",
+        "z": "3bab4206200b7182",
+        "name": "",
+        "label": "",
+        "group": "11e1a7808dc18643",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "options": [
+            {
+                "label": "Full Name",
+                "value": "fname",
+                "type": "text",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Phone Number",
+                "value": "fnumber",
+                "type": "text",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "CIN",
+                "value": "cin",
+                "type": "text",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Mode Abonné",
+                "value": "mode1",
+                "type": "checkbox",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Mode Réservation",
+                "value": "mode2",
+                "type": "checkbox",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Mode Visiteur",
+                "value": "mode3",
+                "type": "checkbox",
+                "required": true,
+                "rows": null
+            }
+        ],
+        "formValue": {
+            "fname": "",
+            "fnumber": "",
+            "cin": "",
+            "mode1": false,
+            "mode2": false,
+            "mode3": false
+        },
+        "payload": "",
+        "submit": "submit",
+        "cancel": "",
+        "topic": "payload",
+        "topicType": "msg",
+        "splitLayout": "",
+        "className": "",
+        "x": 730,
+        "y": 180,
+        "wires": [
+            [
+                "57a606f394c69b39"
+            ]
+        ]
+    },
+    {
+        "id": "bb1296d0eb37d59d",
+        "type": "debug",
+        "z": "3bab4206200b7182",
+        "name": "debug 11",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 960,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "57a606f394c69b39",
+        "type": "function",
+        "z": "3bab4206200b7182",
+        "name": "signupProc",
+        "func": "global.set(\"fname\", msg.payload.fname);\nglobal.set(\"fnumber\", msg.payload.fnumber);\nglobal.set(\"cin\", msg.payload.cin);\n\nvar valid = { payload: false };\nlet c = 0;\nlet m1 = msg.payload.mode1\nlet m2 = msg.payload.mode2\nlet m3 = msg.payload.mode3\n\nif (m1) c++;\nif (m2) c++;\nif (m3) c++;\n\nif (c == 1) {\n    valid = { payload: true };\n    global.set(\"signupMsg\", \"\");\n    if (m1)\n        global.set(\"mode\", 1);\n    else if (m2)\n        global.set(\"mode\", 2);\n    else if (m3)\n        global.set(\"mode\", 3);\n}\n    \nelse {\n    valid = { payload: false };\n    global.set(\"mode\", 0);\n    global.set(\"signupMsg\", \"<font color='#bb3262'>Chose one mode of use !</font>\");\n}\n   \n\n\nvar userData = [];\nuserData = \n[{\n    fname: msg.payload.fname,\n    fnumber: msg.payload.fnumber,\n    cin: msg.payload.cin,\n    mode1: msg.payload.mode1,\n    mode2: msg.payload.mode2,\n    mode3: msg.payload.mode3\n}];\n\n\nvar data = {\n    fname: \"65465\",\n    fnumber: \"65549\",\n    cin: \"fsfs89\",\n    mode1: false,\n    mode2: true,\n    mode3: true\n};\n\nuserData.push(data); \nmsg.payload = userData;\n\nreturn [{ payload: true }, valid, msg];",
+        "outputs": 3,
+        "noerr": 0,
+        "initialize": "// Code added here will be run once\n// whenever the node is started.\nglobal.set(\"mode\", 0);",
+        "finalize": "",
+        "libs": [],
+        "x": 810,
+        "y": 260,
+        "wires": [
+            [
+                "49cd69bfda8d1c8e"
+            ],
+            [
+                "e96e9d7c42e541a9"
+            ],
+            [
+                "bb1296d0eb37d59d"
+            ]
+        ]
+    },
+    {
+        "id": "e36867829d1f3710",
+        "type": "ui_button",
+        "z": "3bab4206200b7182",
+        "name": "RegistredUser",
+        "group": "98613d28609bb501",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "<b>Registred</b>",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "#28abc0",
+        "className": "",
+        "icon": "",
+        "payload": "{\"tab\":\"pRegUser\"}",
+        "payloadType": "json",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 180,
+        "y": 160,
+        "wires": [
+            [
+                "155a54e2cce5baf1"
+            ]
+        ]
+    },
+    {
+        "id": "f16a97871dde45d3",
+        "type": "ui_ui_control",
+        "z": "3bab4206200b7182",
+        "name": "ToNewUserPage",
+        "events": "all",
+        "x": 550,
+        "y": 120,
+        "wires": [
+            [
+                "bb585efc8f2932fb"
+            ]
+        ]
+    },
+    {
+        "id": "db2f9f84ca6ea214",
+        "type": "ui_ui_control",
+        "z": "3bab4206200b7182",
+        "name": "ToRegUserPage",
+        "events": "all",
+        "x": 560,
+        "y": 160,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "cbd70144c7b14dd6",
+        "type": "ui_button",
+        "z": "3bab4206200b7182",
+        "name": "NewUser",
+        "group": "98613d28609bb501",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "<b>New</b>",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "#28abc0",
+        "className": "",
+        "icon": "",
+        "payload": "{\"tab\":\"pNewUser\"}",
+        "payloadType": "json",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 160,
+        "y": 120,
+        "wires": [
+            [
+                "e245088975e386ed"
+            ]
+        ]
+    },
+    {
+        "id": "9101f533fffa7d6a",
+        "type": "ui_media",
+        "z": "3bab4206200b7182",
+        "group": "98613d28609bb501",
+        "name": "",
+        "width": 0,
+        "height": 0,
+        "order": 2,
+        "category": "welcome2Parking",
+        "file": "smartP.png",
+        "layout": "center",
+        "showcontrols": true,
+        "loop": true,
+        "onstart": false,
+        "scope": "local",
+        "tooltip": "",
+        "x": 90,
+        "y": 40,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "384218982042cc1f",
+        "type": "ui_form",
+        "z": "3bab4206200b7182",
+        "name": "",
+        "label": "",
+        "group": "85d54aa90a651db2",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "options": [
+            {
+                "label": "CIN",
+                "value": "c_in",
+                "type": "text",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Registration ID",
+                "value": "reg_id",
+                "type": "text",
+                "required": true,
+                "rows": null
+            }
+        ],
+        "formValue": {
+            "c_in": "",
+            "reg_id": ""
+        },
+        "payload": "",
+        "submit": "Connect",
+        "cancel": "",
+        "topic": "payload",
+        "topicType": "msg",
+        "splitLayout": "",
+        "className": "",
+        "x": 150,
+        "y": 400,
+        "wires": [
+            [
+                "61e992ae127215b7"
+            ]
+        ]
+    },
+    {
+        "id": "898374762fbfb297",
+        "type": "debug",
+        "z": "3bab4206200b7182",
+        "name": "debug 16",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 880,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "1964246fe5e870d7",
+        "type": "function",
+        "z": "3bab4206200b7182",
+        "name": "loginProc",
+        "func": "var c_in = global.get(\"c_in\");\nvar reg_id = global.get(\"reg_id\");\nvar arr = msg.payload;\nlet n = arr.length;\n\nfor (let i=0; i<n; i++) {\n    if ((arr[i].cin == c_in) && (arr[i].regID == String(reg_id))) {\n        global.set(\"loginMsg\", \"<font color='#32bb45'>Login successful !</font>\");\n        global.set(\"currUser\", arr[i].fname);\n        msg.payload = { tab: 'pDash' };\n        switch (arr[i].mode) {\n            case 1:\n                global.set(\"userMode\", \"A\")\n                break;\n            case 2:\n                global.set(\"userMode\", \"B\")\n                break;\n            case 3:\n                global.set(\"userMode\", \"C\")\n                break;\n            default :\n                global.set(\"userMode\", \"\")\n        }\n        break;\n    }\n    else {\n        global.set(\"loginMsg\", \"<font color='#bb3262'>Invalid CIN or ID !</font>\");\n        msg.payload = { tab: 'pRegUser' };\n    }\n}\nreturn [{ payload: true }, msg];",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 660,
+        "y": 400,
+        "wires": [
+            [
+                "46eaa6a65b10797b"
+            ],
+            [
+                "898374762fbfb297",
+                "479974f728cd8df3"
+            ]
+        ]
+    },
+    {
+        "id": "c1991d30b56f3504",
+        "type": "ui_button",
+        "z": "3bab4206200b7182",
+        "name": "",
+        "group": "98613d28609bb501",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "View Parking",
+        "tooltip": "",
+        "color": "#000000",
+        "bgcolor": "#FFFFFF",
+        "className": "",
+        "icon": "",
+        "payload": "{ \"tab\": \"pDash\" }",
+        "payloadType": "json",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 250,
+        "y": 40,
+        "wires": [
+            [
+                "b64db1f9c4c8b3d2",
+                "d610c32a865cb5a0"
+            ]
+        ]
+    },
+    {
+        "id": "432a130a9af136b4",
+        "type": "ui_button",
+        "z": "3bab4206200b7182",
+        "name": "",
+        "group": "11e1a7808dc18643",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "Back",
+        "tooltip": "",
+        "color": "#000000",
+        "bgcolor": "#FFFFFF",
+        "className": "",
+        "icon": "fa-chevron-left",
+        "payload": "{\"tab\":\"pHome\"}",
+        "payloadType": "json",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 470,
+        "y": 220,
+        "wires": [
+            [
+                "53a76b54f26067bd",
+                "62eeeb9c0b900fba"
+            ]
+        ]
+    },
+    {
+        "id": "44273b02e0d5865b",
+        "type": "ui_button",
+        "z": "3bab4206200b7182",
+        "name": "",
+        "group": "85d54aa90a651db2",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "Back",
+        "tooltip": "",
+        "color": "#000000",
+        "bgcolor": "#FFFFFF",
+        "className": "",
+        "icon": "fa-chevron-left",
+        "payload": "{\"tab\":\"pHome\"}",
+        "payloadType": "json",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 490,
+        "y": 320,
+        "wires": [
+            [
+                "b85e1420f0cd6542",
+                "85decba711969237"
+            ]
+        ]
+    },
+    {
+        "id": "53a76b54f26067bd",
+        "type": "ui_ui_control",
+        "z": "3bab4206200b7182",
+        "name": "ToHome",
+        "events": "all",
+        "x": 640,
+        "y": 220,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "b85e1420f0cd6542",
+        "type": "ui_ui_control",
+        "z": "3bab4206200b7182",
+        "name": "ToHome",
+        "events": "all",
+        "x": 680,
+        "y": 300,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "e245088975e386ed",
+        "type": "delay",
+        "z": "3bab4206200b7182",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "500",
+        "timeoutUnits": "milliseconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 350,
+        "y": 120,
+        "wires": [
+            [
+                "f16a97871dde45d3"
+            ]
+        ]
+    },
+    {
+        "id": "155a54e2cce5baf1",
+        "type": "delay",
+        "z": "3bab4206200b7182",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "500",
+        "timeoutUnits": "milliseconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 370,
+        "y": 160,
+        "wires": [
+            [
+                "db2f9f84ca6ea214"
+            ]
+        ]
+    },
+    {
+        "id": "579bd82b3a899f13",
+        "type": "function",
+        "z": "3bab4206200b7182",
+        "name": "updateSignupMsg",
+        "func": "msg.payload = global.get(\"signupMsg\");\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 150,
+        "y": 220,
+        "wires": [
+            [
+                "33104e59df03d435"
+            ]
+        ]
+    },
+    {
+        "id": "d4dce5a30060d748",
+        "type": "function",
+        "z": "3bab4206200b7182",
+        "name": "afficher globales",
+        "func": "var ar= [];\nar[0] = global.get(\"fname\");\nar[1] = global.get(\"fnumber\");\nar[2] = global.get(\"cin\");\nar[3] = global.get(\"mode\");\nar[4] = global.get(\"signupMsg\");\nar[5] = global.get(\"loginMsg\");\nmsg.payload = ar;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 400,
+        "y": 520,
+        "wires": [
+            [
+                "11a35a423d41b370"
+            ]
+        ]
+    },
+    {
+        "id": "53afccfdcd952d02",
+        "type": "debug",
+        "z": "3bab4206200b7182",
+        "name": "debug 19",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 740,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "396ff195a9021d12",
+        "type": "link in",
+        "z": "3bab4206200b7182",
+        "name": "IupdateMsg",
+        "links": [
+            "12b57314f579c166",
+            "49cd69bfda8d1c8e",
+            "58b1823e61274ca1"
+        ],
+        "x": 45,
+        "y": 280,
+        "wires": [
+            [
+                "579bd82b3a899f13"
+            ]
+        ]
+    },
+    {
+        "id": "e9ae0a7b0b7451bf",
+        "type": "link in",
+        "z": "3bab4206200b7182",
+        "name": "IprintGlobs",
+        "links": [
+            "46eaa6a65b10797b",
+            "49cd69bfda8d1c8e"
+        ],
+        "x": 245,
+        "y": 520,
+        "wires": [
+            [
+                "d4dce5a30060d748"
+            ]
+        ]
+    },
+    {
+        "id": "33104e59df03d435",
+        "type": "ui_text",
+        "z": "3bab4206200b7182",
+        "group": "11e1a7808dc18643",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "name": "signup",
+        "label": "<b><font size=\"4\" color=\"#28abc0\"> Sign Up</font></b>",
+        "format": "<font size=\"2\">{{msg.payload}}</font>",
+        "layout": "row-spread",
+        "className": "",
+        "x": 330,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "554b3c537ab585e1",
+        "type": "ui_text",
+        "z": "3bab4206200b7182",
+        "group": "85d54aa90a651db2",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "name": "login",
+        "label": "<b><font size=\"4\" color=\"#28abc0\">Log In</font></b>",
+        "format": "<font size=\"2\">{{msg.payload}}</font>",
+        "layout": "row-spread",
+        "className": "",
+        "x": 350,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "11a35a423d41b370",
+        "type": "delay",
+        "z": "3bab4206200b7182",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "1",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 580,
+        "y": 520,
+        "wires": [
+            [
+                "53afccfdcd952d02"
+            ]
+        ]
+    },
+    {
+        "id": "5f0b9d2fb3fa3e15",
+        "type": "function",
+        "z": "3bab4206200b7182",
+        "name": "ResetMsgs",
+        "func": "global.set(\"signupMsg\", \"\");\nglobal.set(\"loginMsg\", \"\");\nmsg.payload = true;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 390,
+        "y": 580,
+        "wires": [
+            [
+                "12b57314f579c166"
+            ]
+        ]
+    },
+    {
+        "id": "240c38035a1b39a8",
+        "type": "link in",
+        "z": "3bab4206200b7182",
+        "name": "IresetMsgs",
+        "links": [
+            "62eeeb9c0b900fba",
+            "85decba711969237",
+            "7cd60e452ee279f9",
+            "f7b71d030fdd9528"
+        ],
+        "x": 245,
+        "y": 580,
+        "wires": [
+            [
+                "5f0b9d2fb3fa3e15"
+            ]
+        ]
+    },
+    {
+        "id": "62eeeb9c0b900fba",
+        "type": "link out",
+        "z": "3bab4206200b7182",
+        "name": "OresetMsgs",
+        "mode": "link",
+        "links": [
+            "240c38035a1b39a8"
+        ],
+        "x": 565,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "12b57314f579c166",
+        "type": "link out",
+        "z": "3bab4206200b7182",
+        "name": "OresetMsg",
+        "mode": "link",
+        "links": [
+            "396ff195a9021d12",
+            "1e220f01957856ef"
+        ],
+        "x": 565,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "85decba711969237",
+        "type": "link out",
+        "z": "3bab4206200b7182",
+        "name": "OresetMsg",
+        "mode": "link",
+        "links": [
+            "240c38035a1b39a8"
+        ],
+        "x": 605,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "b8d1c8e4b3263b5e",
+        "type": "function",
+        "z": "3bab4206200b7182",
+        "name": "generateRegID",
+        "func": "var arr = msg.payload;\nlet n = arr.length;\nvar exit = 0;\nvar regID = 0;\n\nwhile(exit == 0) {\n    exit = 1;\n    regID = 1000 + Math.floor(Math.random() * 1000);\n    for (let i = 0; i < n; i++) {\n        if (regID == arr[i].regID) {\n            exit = 0;\n            break;\n        }\n    }\n}\n\nmsg.payload = regID;\nglobal.set(\"regID\", regID);\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 680,
+        "y": 640,
+        "wires": [
+            [
+                "4d14d167d9a48b91",
+                "293b5f035fbbb438"
+            ]
+        ]
+    },
+    {
+        "id": "42870941e64f706d",
+        "type": "link in",
+        "z": "3bab4206200b7182",
+        "name": "IvalidLogin",
+        "links": [
+            "e96e9d7c42e541a9",
+            "7713bd5aa4de805e",
+            "ee3b7f7304e6b469",
+            "293b5f035fbbb438"
+        ],
+        "x": 85,
+        "y": 640,
+        "wires": [
+            [
+                "4132395f20746c82"
+            ]
+        ]
+    },
+    {
+        "id": "4d14d167d9a48b91",
+        "type": "debug",
+        "z": "3bab4206200b7182",
+        "name": "debug 20",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 900,
+        "y": 640,
+        "wires": []
+    },
+    {
+        "id": "293b5f035fbbb438",
+        "type": "link out",
+        "z": "3bab4206200b7182",
+        "name": "OvalidLog",
+        "mode": "link",
+        "links": [
+            "1b4926d550607e4e",
+            "42870941e64f706d"
+        ],
+        "x": 845,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "49cd69bfda8d1c8e",
+        "type": "link out",
+        "z": "3bab4206200b7182",
+        "name": "OsignupMsg",
+        "mode": "link",
+        "links": [
+            "396ff195a9021d12",
+            "e9ae0a7b0b7451bf"
+        ],
+        "x": 925,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "bb585efc8f2932fb",
+        "type": "function",
+        "z": "3bab4206200b7182",
+        "name": "function 8",
+        "func": "if (msg.payload == \"lost\" || msg.payload == \"change\")\n    return {payload: true};",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 740,
+        "y": 120,
+        "wires": [
+            [
+                "f7b71d030fdd9528"
+            ]
+        ]
+    },
+    {
+        "id": "f7b71d030fdd9528",
+        "type": "link out",
+        "z": "3bab4206200b7182",
+        "name": "OactionTabSignup",
+        "mode": "link",
+        "links": [
+            "240c38035a1b39a8"
+        ],
+        "x": 855,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "e96e9d7c42e541a9",
+        "type": "link out",
+        "z": "3bab4206200b7182",
+        "name": "OvalidLogin",
+        "mode": "link",
+        "links": [
+            "42870941e64f706d"
+        ],
+        "x": 935,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "79b6930d79165551",
+        "type": "file in",
+        "z": "3bab4206200b7182",
+        "name": "subscribed.json",
+        "filename": "C:\\Users\\YASSI\\Desktop\\subscribed.json",
+        "filenameType": "str",
+        "format": "utf8",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "allProps": false,
+        "x": 380,
+        "y": 640,
+        "wires": [
+            [
+                "e204dd2a3dc26070"
+            ]
+        ]
+    },
+    {
+        "id": "e204dd2a3dc26070",
+        "type": "json",
+        "z": "3bab4206200b7182",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": true,
+        "x": 530,
+        "y": 640,
+        "wires": [
+            [
+                "b8d1c8e4b3263b5e"
+            ]
+        ]
+    },
+    {
+        "id": "4132395f20746c82",
+        "type": "switch",
+        "z": "3bab4206200b7182",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "false"
+            },
+            {
+                "t": "true"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 190,
+        "y": 640,
+        "wires": [
+            [],
+            [
+                "79b6930d79165551"
+            ]
+        ]
+    },
+    {
+        "id": "5576f10af2b0c8ca",
+        "type": "json",
+        "z": "3bab4206200b7182",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": true,
+        "x": 530,
+        "y": 400,
+        "wires": [
+            [
+                "1964246fe5e870d7"
+            ]
+        ]
+    },
+    {
+        "id": "eb0fedaa281d08a1",
+        "type": "file in",
+        "z": "3bab4206200b7182",
+        "name": "subscribed.json",
+        "filename": "C:\\Users\\YASSI\\Desktop\\subscribed.json",
+        "filenameType": "str",
+        "format": "utf8",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "allProps": false,
+        "x": 360,
+        "y": 400,
+        "wires": [
+            [
+                "5576f10af2b0c8ca"
+            ]
+        ]
+    },
+    {
+        "id": "61e992ae127215b7",
+        "type": "function",
+        "z": "3bab4206200b7182",
+        "name": "loginglob",
+        "func": "global.set(\"c_in\", msg.payload.c_in);\nglobal.set(\"reg_id\", msg.payload.reg_id);\nreturn {payload: true};",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 160,
+        "y": 460,
+        "wires": [
+            [
+                "57a61287e4c8e399"
+            ]
+        ]
+    },
+    {
+        "id": "46eaa6a65b10797b",
+        "type": "link out",
+        "z": "3bab4206200b7182",
+        "name": "OupdateLogMsg",
+        "mode": "link",
+        "links": [
+            "1e220f01957856ef",
+            "e9ae0a7b0b7451bf"
+        ],
+        "x": 835,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "cfbe2f58c9adfd28",
+        "type": "function",
+        "z": "3bab4206200b7182",
+        "name": "updateLoginMsg",
+        "func": "msg.payload = global.get(\"loginMsg\");\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 170,
+        "y": 320,
+        "wires": [
+            [
+                "554b3c537ab585e1"
+            ]
+        ]
+    },
+    {
+        "id": "1e220f01957856ef",
+        "type": "link in",
+        "z": "3bab4206200b7182",
+        "name": "IupdateLogMsg",
+        "links": [
+            "12b57314f579c166",
+            "46eaa6a65b10797b"
+        ],
+        "x": 45,
+        "y": 360,
+        "wires": [
+            [
+                "cfbe2f58c9adfd28"
+            ]
+        ]
+    },
+    {
+        "id": "57a61287e4c8e399",
+        "type": "delay",
+        "z": "3bab4206200b7182",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "1",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 320,
+        "y": 460,
+        "wires": [
+            [
+                "eb0fedaa281d08a1"
+            ]
+        ]
+    },
+    {
+        "id": "101dd199c560b830",
+        "type": "ui_ui_control",
+        "z": "3bab4206200b7182",
+        "name": "ToParkingDash",
+        "events": "all",
+        "x": 880,
+        "y": 400,
+        "wires": [
+            [
+                "0f1537fe32960ff0",
+                "3dcbc181ec3d8265"
+            ]
+        ]
+    },
+    {
+        "id": "479974f728cd8df3",
+        "type": "delay",
+        "z": "3bab4206200b7182",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "1",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 800,
+        "y": 460,
+        "wires": [
+            [
+                "101dd199c560b830"
+            ]
+        ]
+    },
+    {
+        "id": "0f1537fe32960ff0",
+        "type": "debug",
+        "z": "3bab4206200b7182",
+        "name": "debug 22",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1020,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "3dcbc181ec3d8265",
+        "type": "link out",
+        "z": "3bab4206200b7182",
+        "name": "OconfirmedLog",
+        "mode": "link",
+        "links": [
+            "8fb57ac02be32fdb"
+        ],
+        "x": 1015,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "05e5de48f35fec50",
+        "type": "ui_ui_control",
+        "z": "3bab4206200b7182",
+        "name": "ToNewUserPage",
+        "events": "all",
+        "x": 630,
+        "y": 40,
+        "wires": [
+            [
+                "85bf3a74e5014657"
+            ]
+        ]
+    },
+    {
+        "id": "b64db1f9c4c8b3d2",
+        "type": "delay",
+        "z": "3bab4206200b7182",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "500",
+        "timeoutUnits": "milliseconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 430,
+        "y": 40,
+        "wires": [
+            [
+                "05e5de48f35fec50"
+            ]
+        ]
+    },
+    {
+        "id": "d610c32a865cb5a0",
+        "type": "function",
+        "z": "3bab4206200b7182",
+        "name": "Set Guest View",
+        "func": "global.set(\"guestView\", false);",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 460,
+        "y": 80,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "85bf3a74e5014657",
+        "type": "link out",
+        "z": "3bab4206200b7182",
+        "name": "OviewGuest",
+        "mode": "link",
+        "links": [
+            "148561fa384a8d18"
+        ],
+        "x": 815,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "351f85ea447180af",
+        "type": "remote-access",
+        "z": "3bab4206200b7182",
+        "confignode": "65aa476d444fcec8",
+        "name": "",
+        "verbose": 0,
+        "x": 940,
+        "y": 20,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "11e1a7808dc18643",
+        "type": "ui_group",
+        "name": "Signup",
+        "tab": "3a3851a1433e7df8",
+        "order": 1,
+        "disp": false,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "98613d28609bb501",
+        "type": "ui_group",
+        "name": "home",
+        "tab": "c24dc65f533258eb",
+        "order": 1,
+        "disp": false,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "85d54aa90a651db2",
+        "type": "ui_group",
+        "name": "Login",
+        "tab": "88e8e635f4271c56",
+        "order": 4,
+        "disp": false,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "65aa476d444fcec8",
+        "type": "remote-config",
+        "name": "SMART PARKING",
+        "host": "localhost",
+        "protocol": "http",
+        "port": "1880",
+        "baseurl": "/ui",
+        "instancehash": "n62j68du90azo674bc32usavk52f6xy2blq3ks80yxv5glmjwk1vat1bpystz1u5",
+        "server": "nodered04.remote-red.com",
+        "region": "de"
+    },
+    {
+        "id": "3a3851a1433e7df8",
+        "type": "ui_tab",
+        "name": "pNewUser",
+        "icon": "dashboard",
+        "order": 3,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "c24dc65f533258eb",
+        "type": "ui_tab",
+        "name": "pHome",
+        "icon": "dashboard",
+        "order": 1,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "88e8e635f4271c56",
+        "type": "ui_tab",
+        "name": "pRegUser",
+        "icon": "dashboard",
+        "order": 4,
+        "disabled": false,
+        "hidden": false
+    }
+]

@@ -1,0 +1,674 @@
+[
+    {
+        "id": "3b7220292009c5d5",
+        "type": "tab",
+        "label": "p_interconnect",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "79768eedb3996564",
+        "type": "mqtt in",
+        "z": "3b7220292009c5d5",
+        "name": "Check IN",
+        "topic": "pCheckIN",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "dd57cb5dc1164ece",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 160,
+        "y": 100,
+        "wires": [
+            [
+                "3bb4f976debbac66"
+            ]
+        ]
+    },
+    {
+        "id": "11e7c31c167e9459",
+        "type": "file in",
+        "z": "3b7220292009c5d5",
+        "name": "subscribed.json",
+        "filename": "C:\\Users\\YASSI\\Desktop\\subscribed.json",
+        "filenameType": "str",
+        "format": "utf8",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "allProps": false,
+        "x": 380,
+        "y": 180,
+        "wires": [
+            [
+                "c9a3ce082b55c131"
+            ]
+        ]
+    },
+    {
+        "id": "c9a3ce082b55c131",
+        "type": "json",
+        "z": "3b7220292009c5d5",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": true,
+        "x": 550,
+        "y": 160,
+        "wires": [
+            [
+                "0e3abce0d3061d01"
+            ]
+        ]
+    },
+    {
+        "id": "0e3abce0d3061d01",
+        "type": "function",
+        "z": "3b7220292009c5d5",
+        "name": "check in user",
+        "func": "var dataBase = msg.payload;\nvar userKey = global.get(\"keyFromCheckIn\");\nvar userIndex = 0;\nvar timeIn;\n\nfor (userIndex = 0; userIndex < dataBase.length; userIndex++) {\n    if (dataBase[userIndex].regID == global.get(\"reg_id\"))\n        break;\n}\n\nvar userAccessKey = dataBase[userIndex].accessKey;\n\nif (userKey == dataBase[userIndex].accessKey) {\n    timeIn = new Date();\n    if (timeIn.getMinutes()<10) {\n        timeIn = String(timeIn.getHours()) + '0' + String(timeIn.getMinutes());\n        dataBase[userIndex].inT = timeIn;\n        return [{ payload: \"valid\" }, { payload: \"in\" }, { payload: dataBase }];\n    }\n        \n    else {\n        timeIn = String(timeIn.getHours()) + String(timeIn.getMinutes());\n        dataBase[userIndex].inT = timeIn;\n        return [{ payload: \"True\" }, { payload: \"in\" }, { payload: dataBase }];\n    }\n        \n}\n\nelse\n    return [{ payload: \"False\" }, { payload: \"\" }, { payload: dataBase }];\n    ",
+        "outputs": 3,
+        "noerr": 0,
+        "initialize": "// Code added here will be run once\n// whenever the node is started.\nreturn { payload: 0 };",
+        "finalize": "",
+        "libs": [],
+        "x": 710,
+        "y": 120,
+        "wires": [
+            [
+                "bb95d9ff65991d8d",
+                "a4ecf55ddbb4edee"
+            ],
+            [
+                "3c4610c13edb94b2"
+            ],
+            [
+                "929d15bca96faf54"
+            ]
+        ]
+    },
+    {
+        "id": "3bb4f976debbac66",
+        "type": "function",
+        "z": "3b7220292009c5d5",
+        "name": "check in user",
+        "func": "var key = msg.payload;\nglobal.set(\"keyFromCheckIn\", key);\nreturn {payload: key};",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "// Code added here will be run once\n// whenever the node is started.\nreturn { payload: 0 };",
+        "finalize": "",
+        "libs": [],
+        "x": 350,
+        "y": 100,
+        "wires": [
+            [
+                "b8529c663f147e93",
+                "d1fa6b2c773ff9e6"
+            ]
+        ]
+    },
+    {
+        "id": "18d108b698fe2c70",
+        "type": "mqtt out",
+        "z": "3b7220292009c5d5",
+        "name": "",
+        "topic": "pInConfirmation",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "dd57cb5dc1164ece",
+        "x": 740,
+        "y": 20,
+        "wires": []
+    },
+    {
+        "id": "5a95ff8d7b7e9915",
+        "type": "comment",
+        "z": "3b7220292009c5d5",
+        "name": "Check In",
+        "info": "",
+        "x": 100,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "94371bc730570eee",
+        "type": "comment",
+        "z": "3b7220292009c5d5",
+        "name": "Check Out",
+        "info": "",
+        "x": 100,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "bb95d9ff65991d8d",
+        "type": "debug",
+        "z": "3b7220292009c5d5",
+        "name": "debug 24",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 900,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "b8529c663f147e93",
+        "type": "debug",
+        "z": "3b7220292009c5d5",
+        "name": "debug 25",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 540,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "d1fa6b2c773ff9e6",
+        "type": "delay",
+        "z": "3b7220292009c5d5",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "500",
+        "timeoutUnits": "milliseconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 210,
+        "y": 180,
+        "wires": [
+            [
+                "11e7c31c167e9459"
+            ]
+        ]
+    },
+    {
+        "id": "3c4610c13edb94b2",
+        "type": "link out",
+        "z": "3b7220292009c5d5",
+        "name": "_in",
+        "mode": "link",
+        "links": [
+            "ab50884238d61b14"
+        ],
+        "x": 855,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "4935a46c380b26c7",
+        "type": "mqtt in",
+        "z": "3b7220292009c5d5",
+        "name": "Check OUT",
+        "topic": "pCheckOUT",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "dd57cb5dc1164ece",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 110,
+        "y": 340,
+        "wires": [
+            [
+                "be1b0944a8c50eb3"
+            ]
+        ]
+    },
+    {
+        "id": "be1b0944a8c50eb3",
+        "type": "function",
+        "z": "3b7220292009c5d5",
+        "name": "check out user",
+        "func": "var key = msg.payload.outAccessKey;\nglobal.set(\"keyFromCheckOut\", key);\nreturn {payload: key};",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "// Code added here will be run once\n// whenever the node is started.\nreturn { payload: 0 };",
+        "finalize": "",
+        "libs": [],
+        "x": 300,
+        "y": 340,
+        "wires": [
+            [
+                "faa2f4f6604e7236"
+            ]
+        ]
+    },
+    {
+        "id": "ba9212b6288b5730",
+        "type": "file in",
+        "z": "3b7220292009c5d5",
+        "name": "subscribed.json",
+        "filename": "C:\\Users\\YASSI\\Desktop\\subscribed.json",
+        "filenameType": "str",
+        "format": "utf8",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "allProps": false,
+        "x": 340,
+        "y": 420,
+        "wires": [
+            [
+                "ea7dd009682f615e"
+            ]
+        ]
+    },
+    {
+        "id": "ea7dd009682f615e",
+        "type": "json",
+        "z": "3b7220292009c5d5",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": true,
+        "x": 510,
+        "y": 400,
+        "wires": [
+            [
+                "e6f65b78fa28eccc"
+            ]
+        ]
+    },
+    {
+        "id": "e6f65b78fa28eccc",
+        "type": "function",
+        "z": "3b7220292009c5d5",
+        "name": "check out user",
+        "func": "var dataBase = msg.payload;\nvar userKey = global.get(\"keyFromCheckOut\");\nvar userIndex = 0;\nvar timeOut;\n\nfor (userIndex = 0; userIndex < dataBase.length; userIndex++) {\n    if (dataBase[userIndex].regID == global.get(\"reg_id\"))\n        break;\n}\n\nvar userAccessKey = dataBase[userIndex].accessKey;\nvar timeIn = dataBase[userIndex].inT\nvar sejour = 0;\nvar payment = 0;\n\nif (userKey == dataBase[userIndex].accessKey) {\n    timeOut = new Date();\n    if (timeOut.getMinutes()<10)\n        timeOut = String(timeOut.getHours()) + '0' + String(timeOut.getMinutes());\n    else\n        timeOut = String(timeOut.getHours()) + String(timeOut.getMinutes());\n\n    sejour = String((Number(timeOut) - Number(timeIn))/100);\n    sejour = sejour.split(\".\");\n    payment = 0.1*(Number(sejour[0])*60+Number(sejour[1]));\n    payment = payment.toFixed(2);\n    global.set(\"payment\",payment);\n    let amount_due = \"Amount due : \"+String(payment)+\" DH\";\n    return [{ payload: { \"payment\": String(payment), \"checkOut\": \"close\" } }, { payload: \"out\" }, { payload: amount_due }];\n}\n    ",
+        "outputs": 3,
+        "noerr": 0,
+        "initialize": "// Code added here will be run once\n// whenever the node is started.\nreturn { payload: 0 };",
+        "finalize": "",
+        "libs": [],
+        "x": 580,
+        "y": 320,
+        "wires": [
+            [
+                "4b9c28dc2e5931ac",
+                "a80f2376b2d9ec01"
+            ],
+            [
+                "cb3206f55e448055"
+            ],
+            [
+                "eeddbebbf2726699",
+                "4a876c40da122ceb"
+            ]
+        ]
+    },
+    {
+        "id": "4b9c28dc2e5931ac",
+        "type": "mqtt out",
+        "z": "3b7220292009c5d5",
+        "name": "",
+        "topic": "pOutConfirmation",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "dd57cb5dc1164ece",
+        "x": 910,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "a80f2376b2d9ec01",
+        "type": "debug",
+        "z": "3b7220292009c5d5",
+        "name": "debug 27",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 900,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "faa2f4f6604e7236",
+        "type": "delay",
+        "z": "3b7220292009c5d5",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "500",
+        "timeoutUnits": "milliseconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 150,
+        "y": 420,
+        "wires": [
+            [
+                "ba9212b6288b5730"
+            ]
+        ]
+    },
+    {
+        "id": "cb3206f55e448055",
+        "type": "link out",
+        "z": "3b7220292009c5d5",
+        "name": "_out",
+        "mode": "link",
+        "links": [
+            "8b3557e86df11870"
+        ],
+        "x": 765,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "929d15bca96faf54",
+        "type": "json",
+        "z": "3b7220292009c5d5",
+        "name": "",
+        "property": "payload",
+        "action": "str",
+        "pretty": true,
+        "x": 750,
+        "y": 200,
+        "wires": [
+            [
+                "ce27985006fe997f"
+            ]
+        ]
+    },
+    {
+        "id": "ce27985006fe997f",
+        "type": "file",
+        "z": "3b7220292009c5d5",
+        "name": "subscribed.json",
+        "filename": "C:\\Users\\YASSI\\Desktop\\subscribed.json",
+        "filenameType": "str",
+        "appendNewline": true,
+        "createDir": false,
+        "overwriteFile": "true",
+        "encoding": "none",
+        "x": 900,
+        "y": 200,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "eeddbebbf2726699",
+        "type": "ui_toast",
+        "z": "3b7220292009c5d5",
+        "position": "prompt",
+        "displayTime": "3",
+        "highlight": "",
+        "sendall": true,
+        "outputs": 1,
+        "ok": "Pay",
+        "cancel": "",
+        "raw": false,
+        "className": "",
+        "topic": "",
+        "name": "",
+        "x": 670,
+        "y": 500,
+        "wires": [
+            [
+                "69d03f1f22c59f9f"
+            ]
+        ]
+    },
+    {
+        "id": "4a876c40da122ceb",
+        "type": "file in",
+        "z": "3b7220292009c5d5",
+        "name": "subscribed.json",
+        "filename": "C:\\Users\\YASSI\\Desktop\\subscribed.json",
+        "filenameType": "str",
+        "format": "utf8",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "allProps": false,
+        "x": 500,
+        "y": 540,
+        "wires": [
+            [
+                "945d7712be31f09b"
+            ]
+        ]
+    },
+    {
+        "id": "945d7712be31f09b",
+        "type": "json",
+        "z": "3b7220292009c5d5",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": true,
+        "x": 670,
+        "y": 540,
+        "wires": [
+            [
+                "c2d95054ce2093db"
+            ]
+        ]
+    },
+    {
+        "id": "c2d95054ce2093db",
+        "type": "function",
+        "z": "3b7220292009c5d5",
+        "name": "reset json data",
+        "func": "var dataBase = msg.payload;\nvar userIndex = 0;\n\nfor (userIndex = 0; userIndex < dataBase.length; userIndex++) {\n    if (dataBase[userIndex].regID == global.get(\"reg_id\"))\n        break;\n}\n\ndataBase[userIndex].accessKey = \"\";\ndataBase[userIndex].inT = \"\";\n\nreturn { payload: dataBase };",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "// Code added here will be run once\n// whenever the node is started.\nreturn { payload: 0 };",
+        "finalize": "",
+        "libs": [],
+        "x": 820,
+        "y": 540,
+        "wires": [
+            [
+                "3fe0d21262d9b56e"
+            ]
+        ]
+    },
+    {
+        "id": "3fe0d21262d9b56e",
+        "type": "json",
+        "z": "3b7220292009c5d5",
+        "name": "",
+        "property": "payload",
+        "action": "str",
+        "pretty": true,
+        "x": 650,
+        "y": 600,
+        "wires": [
+            [
+                "960af7a40f9f8b2e"
+            ]
+        ]
+    },
+    {
+        "id": "960af7a40f9f8b2e",
+        "type": "file",
+        "z": "3b7220292009c5d5",
+        "name": "subscribed.json",
+        "filename": "C:\\Users\\YASSI\\Desktop\\subscribed.json",
+        "filenameType": "str",
+        "appendNewline": true,
+        "createDir": false,
+        "overwriteFile": "true",
+        "encoding": "none",
+        "x": 820,
+        "y": 600,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "69d03f1f22c59f9f",
+        "type": "function",
+        "z": "3b7220292009c5d5",
+        "name": "resend to check out",
+        "func": "if (msg.payload == \"Pay\") {\n    global.set(\"c0\", 0);\n    return [{ payload: { \"payment\": String(payment), \"checkOut\": \"open\" } }, { payload: \"Amount successfuly paid !\"}];\n}\n",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "// Code added here will be run once\n// whenever the node is started.\nreturn { payload: 0 };",
+        "finalize": "",
+        "libs": [],
+        "x": 750,
+        "y": 440,
+        "wires": [
+            [
+                "4b9c28dc2e5931ac",
+                "c65fd544bf559de9"
+            ],
+            [
+                "0ebd1b3c6cebad17"
+            ]
+        ]
+    },
+    {
+        "id": "1ed26d31b67125ae",
+        "type": "remote-access",
+        "z": "3b7220292009c5d5",
+        "confignode": "65aa476d444fcec8",
+        "name": "",
+        "verbose": 0,
+        "x": 940,
+        "y": 20,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "c65fd544bf559de9",
+        "type": "link out",
+        "z": "3b7220292009c5d5",
+        "name": "OrefreshPlaces",
+        "mode": "link",
+        "links": [
+            "8a7481d442956930"
+        ],
+        "x": 905,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "0ebd1b3c6cebad17",
+        "type": "ui_toast",
+        "z": "3b7220292009c5d5",
+        "position": "prompt",
+        "displayTime": "3",
+        "highlight": "",
+        "sendall": true,
+        "outputs": 1,
+        "ok": "OK",
+        "cancel": "",
+        "raw": false,
+        "className": "",
+        "topic": "",
+        "name": "",
+        "x": 930,
+        "y": 500,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "a4ecf55ddbb4edee",
+        "type": "delay",
+        "z": "3b7220292009c5d5",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "1",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 720,
+        "y": 80,
+        "wires": [
+            [
+                "18d108b698fe2c70"
+            ]
+        ]
+    },
+    {
+        "id": "dd57cb5dc1164ece",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "test.mosquitto.org",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "65aa476d444fcec8",
+        "type": "remote-config",
+        "name": "SMART PARKING",
+        "host": "localhost",
+        "protocol": "http",
+        "port": "1880",
+        "baseurl": "/ui",
+        "instancehash": "n62j68du90azo674bc32usavk52f6xy2blq3ks80yxv5glmjwk1vat1bpystz1u5",
+        "server": "nodered04.remote-red.com",
+        "region": "de"
+    }
+]

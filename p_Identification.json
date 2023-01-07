@@ -1,0 +1,285 @@
+[
+    {
+        "id": "4d89dbc65343fc8b",
+        "type": "tab",
+        "label": "p_Identification",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "819ed8fbc05dc958",
+        "type": "file in",
+        "z": "4d89dbc65343fc8b",
+        "name": "subscribed.json",
+        "filename": "C:\\Users\\YASSI\\Desktop\\subscribed.json",
+        "filenameType": "str",
+        "format": "utf8",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "allProps": false,
+        "x": 160,
+        "y": 80,
+        "wires": [
+            [
+                "5e6dfe81706cb4ae"
+            ]
+        ]
+    },
+    {
+        "id": "5e6dfe81706cb4ae",
+        "type": "json",
+        "z": "4d89dbc65343fc8b",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": true,
+        "x": 330,
+        "y": 80,
+        "wires": [
+            [
+                "5eee5359d1f349fb",
+                "0dfcd57f94486a3b"
+            ]
+        ]
+    },
+    {
+        "id": "5eee5359d1f349fb",
+        "type": "debug",
+        "z": "4d89dbc65343fc8b",
+        "name": "debug 17",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 620,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "0dfcd57f94486a3b",
+        "type": "function",
+        "z": "4d89dbc65343fc8b",
+        "name": "authetification",
+        "func": "/*var subscribed = [];\n\nsubscribed[0] = msg.payload;\n\nvar data = {\n    fname: \"65465\",\n    fnumber: \"65549\",\n    cin: \"fsfs89\",\n    mode: 2\n}\n\nsubscribed.push(data);\nmsg = subscribed;\n\nreturn msg;*/\n\nvar arr = msg.payload;\n//arr.splice(1, 1);\nlet n = arr.length;\nlet f = 0;\nlet e = 0;\nvar validNewLog;\nvar registredId;\n\nfor (let i=0; i<n; i++)\n{\n    if ((global.get(\"cin\") == arr[i].cin))\n    {\n        registredId = arr[i].regID;\n        if ((global.get(\"fname\") == arr[i].fname) &&\n            (global.get(\"fnumber\") == arr[i].fnumber) &&\n            (global.get(\"mode\") == arr[i].mode))\n            f = 1;\n        else {\n            e = 1;\n            arr[i].fname = global.get(\"fname\");\n            arr[i].fnumber = global.get(\"fnumber\");\n            arr[i].mode = global.get(\"mode\");\n        } \n    }\n}\nif (f == 1) {\n    global.set(\"signupMsg\", \"<font color='#bb3262'>Account already existing !</font>\");\n}\nelse if (e == 1) {\n    global.set(\"signupMsg\", \"<font color='#3260bb'>Account Updated !</font>\");\n}\nelse\n{\n    registredId = global.get(\"regID\");\n    global.set(\"signupMsg\", \"<font color='#32bb45'>Succesfully registred !</font>\");\n    var data = {\n        fname: global.get(\"fname\"),\n        fnumber: global.get(\"fnumber\"),\n        cin: global.get(\"cin\"),\n        mode: global.get(\"mode\"),\n        regID: global.get(\"regID\"),\n        accessKey: \"\",\n        inT: \"\"\n    };\n\n    arr[n] = data;\n}\n\nmsg.payload = arr;\n\nreturn [msg, { payload: true }, { payload: \"Your registration ID is \" + String(registredId)}];",
+        "outputs": 3,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 460,
+        "y": 200,
+        "wires": [
+            [
+                "b81a9acf2d9eed94",
+                "a5adc2639247899b"
+            ],
+            [
+                "58b1823e61274ca1"
+            ],
+            [
+                "29644d75b0102ce5"
+            ]
+        ]
+    },
+    {
+        "id": "a5adc2639247899b",
+        "type": "json",
+        "z": "4d89dbc65343fc8b",
+        "name": "",
+        "property": "payload",
+        "action": "str",
+        "pretty": true,
+        "x": 710,
+        "y": 200,
+        "wires": [
+            [
+                "35cc5573bcdc1014"
+            ]
+        ]
+    },
+    {
+        "id": "b81a9acf2d9eed94",
+        "type": "debug",
+        "z": "4d89dbc65343fc8b",
+        "name": "debug 18",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 740,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "35cc5573bcdc1014",
+        "type": "file",
+        "z": "4d89dbc65343fc8b",
+        "name": "subscribed.json",
+        "filename": "C:\\Users\\YASSI\\Desktop\\subscribed.json",
+        "filenameType": "str",
+        "appendNewline": true,
+        "createDir": false,
+        "overwriteFile": "true",
+        "encoding": "none",
+        "x": 880,
+        "y": 200,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "d366ab2f914c8427",
+        "type": "change",
+        "z": "4d89dbc65343fc8b",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "true",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 200,
+        "y": 180,
+        "wires": [
+            [
+                "819ed8fbc05dc958"
+            ]
+        ]
+    },
+    {
+        "id": "1b4926d550607e4e",
+        "type": "link in",
+        "z": "4d89dbc65343fc8b",
+        "name": "IvalidLog",
+        "links": [
+            "293b5f035fbbb438"
+        ],
+        "x": 55,
+        "y": 180,
+        "wires": [
+            [
+                "d366ab2f914c8427",
+                "4b3f120bbfb61c41"
+            ]
+        ]
+    },
+    {
+        "id": "4b3f120bbfb61c41",
+        "type": "debug",
+        "z": "4d89dbc65343fc8b",
+        "name": "debug 21",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 180,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "58b1823e61274ca1",
+        "type": "link out",
+        "z": "4d89dbc65343fc8b",
+        "name": "updateSignupMsg",
+        "mode": "link",
+        "links": [
+            "396ff195a9021d12"
+        ],
+        "x": 665,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "1df9b6e27a4a34c1",
+        "type": "ui_toast",
+        "z": "4d89dbc65343fc8b",
+        "position": "dialog",
+        "displayTime": "3",
+        "highlight": "",
+        "sendall": true,
+        "outputs": 1,
+        "ok": "OK",
+        "cancel": "",
+        "raw": false,
+        "className": "",
+        "topic": "",
+        "name": "",
+        "x": 750,
+        "y": 340,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "29644d75b0102ce5",
+        "type": "delay",
+        "z": "4d89dbc65343fc8b",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "1",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 580,
+        "y": 280,
+        "wires": [
+            [
+                "1df9b6e27a4a34c1"
+            ]
+        ]
+    },
+    {
+        "id": "80b033907d6f209d",
+        "type": "remote-access",
+        "z": "4d89dbc65343fc8b",
+        "confignode": "65aa476d444fcec8",
+        "name": "",
+        "verbose": 0,
+        "x": 940,
+        "y": 20,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "65aa476d444fcec8",
+        "type": "remote-config",
+        "name": "SMART PARKING",
+        "host": "localhost",
+        "protocol": "http",
+        "port": "1880",
+        "baseurl": "/ui",
+        "instancehash": "n62j68du90azo674bc32usavk52f6xy2blq3ks80yxv5glmjwk1vat1bpystz1u5",
+        "server": "nodered04.remote-red.com",
+        "region": "de"
+    }
+]
